@@ -10,7 +10,7 @@ namespace MainProgram
         static void Main(string[] args)
         {
             const int MAX_TURNS = 9;
-
+            Clear();
             WriteLine("\n----------------------------------");
             WriteLine("Welcome to tic-tac-toe");
             WriteLine("----------------------------------");
@@ -26,7 +26,9 @@ namespace MainProgram
             {
                 // player X on even turns, player O on odd turns
                 char currentPlayer = turn % 2 == 0 ? 'X' : 'O';
+                ClearRow(7);
                 WriteLine($"currentPlayer={currentPlayer}; turn={turn}");
+                ClearRow(8);
                 WriteLine("Current Board: ");
                 DisplayBoard(board);
                 board = MakeMove(currentPlayer, board);
@@ -78,7 +80,10 @@ namespace MainProgram
             ---+---+---
              {b[6]} | {b[7]} |{b[8]}
              ";
-            Console.WriteLine(boardLayout);
+            ClearRow(10);
+            ClearRow(11);
+            ClearRow(12);
+            WriteLine(boardLayout);
         }
 
         //GetMove
@@ -89,10 +94,12 @@ namespace MainProgram
         */
         public static int GetMove(string message, char[] board)
         {
-            Console.WriteLine(message);
+            ClearRow(11);
+            WriteLine(message);
+            Write("Move: ");
             try
             {
-                char input = Console.ReadKey().KeyChar;
+                char input = ReadKey().KeyChar;
                 for (int i = 0; i < board.Length; i++)
                 {
                     if (board[i] == input)
@@ -102,7 +109,7 @@ namespace MainProgram
                 }
                 return GetMove(message, board);
             }
-            catch (System.Exception)
+            catch
             {
 
                 return GetMove(message, board);
@@ -172,6 +179,13 @@ namespace MainProgram
             board[index] = player;
 
             return board;
+        }
+
+        public static void ClearRow(int row)
+        {
+            SetCursorPosition(0, row);
+            Write(new string(' ', WindowWidth));
+            SetCursorPosition(0, row);
         }
 
 
